@@ -1,7 +1,6 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
-
-import android.widget.Space
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +18,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
@@ -28,7 +26,6 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -43,16 +40,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.provider.FontsContractCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
-import br.senai.sp.jandira.lotus.model.PerfilGestante
+import br.senai.sp.jandira.lotus.model.Gestante
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
+import br.senai.sp.jandira.lotus.model.Results
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -60,24 +57,26 @@ import retrofit2.Response
 
 @Composable
 fun PerfilGestante(controleNavegacao: NavHostController) {
-
-    var gestante by remember { mutableStateOf(PerfilGestante()) }
+    val context = LocalContext.current
+    var gestante by remember { mutableStateOf(Gestante()) }
     val id = 1
 
+    val callGestante = RetrofitFactory().getGestanteService().getGestanteById(id)
+    callGestante.enqueue(object : Callback<Gestante> {
+        override fun onResponse(call: Call<Gestante>, response: Response<Gestante>) {
+            if (response.isSuccessful && response.body() != null) {
+                gestante = response.body()!!
+            } else {
+                Toast.makeText(context, "Erro ao obter dados!", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        override fun onFailure(call: Call<Gestante>, t: Throwable) {
+            Toast.makeText(context, "Ocorreu um erro!", Toast.LENGTH_SHORT).show()
+        }
+    })
+
     Surface() {
-
-        val callGestante = RetrofitFactory().getGestanteService().getGestanteById(id)
-        callGestante.enqueue(object : Callback<PerfilGestante> {
-            override fun onResponse(call: Call<PerfilGestante>, response: Response<PerfilGestante>) {
-                if (response.isSuccessful) {
-                    gestante = response.body()!!
-                }
-            }
-
-            override fun onFailure(call: Call<PerfilGestante>, t: Throwable) {
-
-            }
-        })
 
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -223,7 +222,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "Sobrenome:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "Castro")
+                                Text("${gestante.sobrenome_gestante}")
                             }
 
                             Row (
@@ -238,7 +237,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "CPF:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "123-456-789-01")
+                                Text("${gestante.cpf_gestante}")
                             }
 
                             Row (
@@ -253,7 +252,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "Profissao:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "Professora")
+                                Text("${gestante.profissao_gestante}")
                             }
                             Row (
                                 verticalAlignment = Alignment.CenterVertically,
@@ -267,7 +266,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "Nascimento:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "12/07/2002")
+                                Text("${gestante.data_nascimento_gestante}")
                             }
                             Row (
                                 verticalAlignment = Alignment.CenterVertically,
@@ -281,7 +280,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "Nome do bebe:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "Lotus")
+                                Text("${gestante.nome_bebe}")
                             }
                             Row (
                                 verticalAlignment = Alignment.CenterVertically,
@@ -295,7 +294,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                 Text(text = "Semanas de gravidez:",
                                     color = Color(0xff7C7C7C))
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text(text = "2 semanas")
+                                Text("${gestante.semanas_de_gravidez}")
                             }
                         }
 

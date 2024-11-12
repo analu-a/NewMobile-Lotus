@@ -15,7 +15,7 @@ fun AgendaGestante(controleNavegacao: NavHostController) {
     Surface(onClick = { /*TODO*/ }) {
 
         Column {
-            Text(text = "Calendário", style =  MaterialTheme.typography.headlineLarge)
+            Text(text = "Agenda", style =  MaterialTheme.typography.headlineLarge)
 
             // Calendario aqui
 

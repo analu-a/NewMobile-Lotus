@@ -19,8 +19,9 @@ import br.senai.sp.jandira.lotus.screens.doula.RegisterDoula
 import br.senai.sp.jandira.lotus.screens.gestante.AgendaGestante
 import br.senai.sp.jandira.lotus.screens.gestante.CheckListGestante
 import br.senai.sp.jandira.lotus.screens.gestante.Conteudos
+import br.senai.sp.jandira.lotus.screens.gestante.GaleriaGestante
 import br.senai.sp.jandira.lotus.screens.gestante.HomeGestante
-import br.senai.sp.jandira.lotus.screens.gestante.HomeGestantePreview
+import br.senai.sp.jandira.lotus.screens.gestante.MonitoramentoGestante
 import br.senai.sp.jandira.lotus.screens.gestante.PerfilGestante
 import br.senai.sp.jandira.lotus.screens.gestante.RegisterGestante
 import br.senai.sp.jandira.lotus.ui.theme.LotusTheme
@@ -55,10 +56,9 @@ class MainActivity : ComponentActivity() {
                         composable(route = "homegestante") { HomeGestante(controleNavegacao) }
                         composable(route = "agendagestante") { AgendaGestante(controleNavegacao) }
                         composable(route = "checklistgestante") { CheckListGestante(controleNavegacao) }
-                        composable(route = "conteudos") { Conteudos(controleNavegacao) }
-                        // composable(route = "galeria" {Galeria(controleNavegacao)})
-                        // composable(route = "monitoramento") { Monitoramento(controleNavegacao) }
-                        // composable(route = "monitoramento") { Monitoramento(controleNavegacao) }
+                        composable(route = "conteudosgestante") { Conteudos(controleNavegacao) }
+                        composable(route = "monitoramentogestante") { MonitoramentoGestante(controleNavegacao) }
+                        composable(route = "galeriagestante") { GaleriaGestante(controleNavegacao) }
 
                     }
                 }

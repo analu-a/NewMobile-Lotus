@@ -103,7 +103,7 @@ fun HomeGestante(controleNavegacao: NavHostController) {
                 Spacer(modifier = Modifier.height(14.dp))
                 Row() {
 
-                    Button(onClick = { controleNavegacao.navigate("checklistgestante") },
+                    Button(onClick = { controleNavegacao.navigate("conteudogestante") },
                         Modifier
                             .height(120.dp)
                             .width(120.dp),
@@ -113,7 +113,7 @@ fun HomeGestante(controleNavegacao: NavHostController) {
 
                     }
                     Spacer(modifier = Modifier.width(28.dp))
-                    Button(onClick = { controleNavegacao.navigate("agendagestante") },
+                    Button(onClick = { controleNavegacao.navigate("galeriagestante") },
                         Modifier
                             .height(120.dp)
                             .width(120.dp),
@@ -126,7 +126,7 @@ fun HomeGestante(controleNavegacao: NavHostController) {
                 Spacer(modifier = Modifier.height(14.dp))
                 Row() {
 
-                    Button(onClick = { controleNavegacao.navigate("checklistgestante") },
+                    Button(onClick = { controleNavegacao.navigate("monitoramentogestante") },
                         Modifier
                             .height(60.dp)
                             .width(260.dp),
@@ -144,12 +144,6 @@ fun HomeGestante(controleNavegacao: NavHostController) {
 
 
         }
-
-
-
-
-
-
 
     }
 
