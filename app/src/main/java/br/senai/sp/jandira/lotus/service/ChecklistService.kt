@@ -6,7 +6,5 @@ import retrofit2.http.GET
 
 interface ChecklistService {
 
-    @GET("v1/Lotus/enxoval")
-    fun getAllEnxoval(): Call<Results>
 
 }

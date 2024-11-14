@@ -34,6 +34,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import br.senai.sp.jandira.lotus.model.Conteudo
+import br.senai.sp.jandira.lotus.model.Gestante
 import br.senai.sp.jandira.lotus.model.Results
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import retrofit2.Call
@@ -43,7 +44,7 @@ import retrofit2.Response
 @Composable
 fun Conteudos(controleNavegacao: NavHostController) {
 
-    var conteudoList by remember { mutableStateOf(listOf<Conteudo>()) }
+    var conteudoList: List<Gestante> = listOf()
     var isLoading by remember { mutableStateOf(true) } // Estado de carregamento
 
     val conteudoCall = RetrofitFactory()
@@ -63,6 +64,7 @@ fun Conteudos(controleNavegacao: NavHostController) {
             isLoading = false
         }
     })
+
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -89,6 +91,10 @@ fun Conteudos(controleNavegacao: NavHostController) {
             }
         }
     }
+}
+
+private fun <T> Call<T>.enqueue(callback: Callback<Results>) {
+
 }
 
 @Composable

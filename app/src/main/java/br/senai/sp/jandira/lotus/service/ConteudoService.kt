@@ -9,7 +9,7 @@ import retrofit2.http.Path
 interface  ConteudoService {
 
     @GET("v1/Lotus/conteudos/gestante")
-    fun getAllConteudo(): Call<Results>
+    fun getAllConteudo(): Call<Conteudo>
 
     @GET("v1/Lotus/conteudos/gestante/{id}")
     fun getContreudoById(@Path("id") id: Int): Call<Conteudo>

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -50,6 +51,7 @@ import br.senai.sp.jandira.lotus.R
 import br.senai.sp.jandira.lotus.model.Gestante
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import br.senai.sp.jandira.lotus.model.Results
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -59,22 +61,25 @@ import retrofit2.Response
 fun PerfilGestante(controleNavegacao: NavHostController) {
     val context = LocalContext.current
     var gestante by remember { mutableStateOf(Gestante()) }
-    val id = 1
 
-    val callGestante = RetrofitFactory().getGestanteService().getGestanteById(id)
-    callGestante.enqueue(object : Callback<Gestante> {
-        override fun onResponse(call: Call<Gestante>, response: Response<Gestante>) {
-            if (response.isSuccessful && response.body() != null) {
-                gestante = response.body()!!
+    RetrofitFactory().getGestanteService().getGestanteById(2).enqueue(object : Callback<Results> {
+        override fun onResponse(call: Call<Results>, response: Response<Results>) {
+            if (response.isSuccessful) {
+                val gestanteResponse = response.body()
+                if (gestanteResponse != null && gestanteResponse.results.isNotEmpty()) {
+                    gestante = gestanteResponse.results[0] // Acessando a primeira gestante
+                    Log.d("API_RESPONSE", "Gestante: $gestante")
+                }
             } else {
-                Toast.makeText(context, "Erro ao obter dados!", Toast.LENGTH_SHORT).show()
+                Log.e("API_ERROR", "Erro na resposta: ${response.errorBody()?.string()}")
             }
         }
 
-        override fun onFailure(call: Call<Gestante>, t: Throwable) {
-            Toast.makeText(context, "Ocorreu um erro!", Toast.LENGTH_SHORT).show()
+        override fun onFailure(call: Call<Results>, t: Throwable) {
+            Log.e("API_FAILURE", "Falha na chamada: ${t.message}")
         }
     })
+
 
     Surface() {
 
@@ -150,6 +155,13 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                                     )
                                 )
                         ) {}
+
+                        Card {
+//                            AsyncImage(
+//                                model = gestante.foto_gestante,
+//                                contentDescription = ""
+//                            )
+                        }
                         Image(
                             painter = painterResource(id = R.drawable.mulher),
                             contentDescription = "",
@@ -314,7 +326,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Editar perfil")
-                        
+
                     }
 
 

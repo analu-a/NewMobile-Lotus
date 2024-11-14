@@ -9,7 +9,7 @@ import retrofit2.http.Path
 interface DoulaService {
 
     @GET("v1/Lotus/conteudos/doula")
-    fun getAllDoula(): Call<Results>
+    fun getAllDoula(): Call<Conteudo>
 
     @GET("v1/Lotus/conteudos/doula/{id}")
     fun getDoulaById(@Path("id") id: Int): Call<Conteudo>
