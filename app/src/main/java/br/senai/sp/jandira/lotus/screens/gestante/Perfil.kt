@@ -49,6 +49,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
 import br.senai.sp.jandira.lotus.model.Gestante
+import br.senai.sp.jandira.lotus.model.ResultGestante
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import br.senai.sp.jandira.lotus.model.Results
 import okhttp3.ResponseBody
@@ -63,11 +64,12 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
     var gestante by remember { mutableStateOf(Gestante()) }
 
     RetrofitFactory().getGestanteService().getGestanteById(2).enqueue(object : Callback<Results> {
-        override fun onResponse(call: Call<Results>, response: Response<Results>) {
+        override fun onResponse(call: Call<ResultGestante>, response: Response<ResultGestante>) {
             if (response.isSuccessful) {
                 val gestanteResponse = response.body()
+                Log.i("tag", response.body().toString())
                 if (gestanteResponse != null && gestanteResponse.results.isNotEmpty()) {
-                    gestante = gestanteResponse.results[0] // Acessando a primeira gestante
+                    gestante = gestanteResponse.results[0].results // Acessando a primeira gestante
                     Log.d("API_RESPONSE", "Gestante: $gestante")
                 }
             } else {
@@ -75,7 +77,7 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
             }
         }
 
-        override fun onFailure(call: Call<Results>, t: Throwable) {
+        override fun onFailure(call: Call<ResultGestante>, t: Throwable) {
             Log.e("API_FAILURE", "Falha na chamada: ${t.message}")
         }
     })
