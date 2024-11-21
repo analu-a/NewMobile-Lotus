@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     val controleNavegacao = rememberNavController()
                     NavHost(
                         navController = controleNavegacao,
-                        startDestination = "perfilgestante"
+                        startDestination = "login"
                     ) {
                         composable(route = "login") { Login(controleNavegacao) }
                         composable(route = "register") { Register(controleNavegacao) }
@@ -52,9 +52,14 @@ class MainActivity : ComponentActivity() {
 
                         //Gestante
                         composable(route = "registergestante") { RegisterGestante(controleNavegacao) }
-                        composable(route = "perfilgestante") { PerfilGestante(controleNavegacao) }
-                        composable(route = "homegestante") { HomeGestante(controleNavegacao) }
-                        composable(route = "agendagestante") { AgendaGestante(controleNavegacao) }
+                        composable(route = "perfilgestante/{id}") { backStateEntry ->
+                            val id =  backStateEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
+                            PerfilGestante(controleNavegacao, id.toString()) }
+                        composable(route = "homegestante/{id}") { backStateEntry ->
+                            val id =  backStateEntry.arguments?.getString("id")?.toIntOrNull() ?: 0
+                            HomeGestante(controleNavegacao, id.toString()) }
+                        composable(route = "agendagestante") { AgendaGestante(controleNavegacao, id.toString()
+                        ) }
                         composable(route = "checklistgestante") { CheckListGestante(controleNavegacao) }
                         composable(route = "conteudosgestante") { Conteudos(controleNavegacao) }
                         composable(route = "monitoramentogestante") { MonitoramentoGestante(controleNavegacao) }

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.lotus.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -29,12 +31,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
+import br.senai.sp.jandira.lotus.model.Gestante
+import br.senai.sp.jandira.lotus.model.loginValidado
+import br.senai.sp.jandira.lotus.service.RetrofitFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun Login(controleNavegacao: NavHostController) {
@@ -100,9 +110,9 @@ fun Login(controleNavegacao: NavHostController) {
 
 
             OutlinedTextField(
-                value = emailState.value,
+                value = passwordState.value,
                 onValueChange = {
-                    emailState.value = it
+                    passwordState.value = it
                 },
                 label = {
                     Text(text = "Password")
@@ -120,15 +130,31 @@ fun Login(controleNavegacao: NavHostController) {
                         focusedContainerColor =  Color(0x2FFFAEBF),
                     ),
                 shape = RoundedCornerShape(36.dp),
-                maxLines = 1
+                maxLines = 1,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = PasswordVisualTransformation()
             )
 
             Spacer(modifier = Modifier.height(34.dp))
 
 
             Button(onClick = {
+val autentication = RetrofitFactory().getGestanteService().addLogin(loginUsuario = Gestante(nome_gestante = "", sobrenome_gestante = "", idade_gestante = null, peso_gestante = null, altura_gestante = null, email_gestante = emailState.value, senha_gestante = passwordState.value, foto_gestante = "", cpf_gestante = "", data_nascimento_gestante = "", profissao_gestante = "", nome_bebe = "", semanas_de_gravidez = ""))
+                if(emailState.value == "" || passwordState.value == ""){}else{
+                autentication.enqueue(object : Callback<loginValidado>{
+                    override fun onResponse(p0: Call<loginValidado>, p1: Response<loginValidado>) {
+                        Log.i("tag", p1.body().toString())
+controleNavegacao.navigate("homegestante/${p1.body()?.usuario!![0].id_usuario_gestante}")
+                }
 
-            },
+                    override fun onFailure(p0: Call<loginValidado>, p1: Throwable) {
+                        TODO("Not yet implemented")
+                        Log.i("tag", p1.message.toString())
+                    }
+                })
+
+
+            }},
                 shape = RoundedCornerShape(66.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color((0xffFFAEBF)))
             ) {

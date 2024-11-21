@@ -10,7 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun AgendaGestante(controleNavegacao: NavHostController) {
+fun AgendaGestante(controleNavegacao: NavHostController, id : String) {
 
     Surface(onClick = { /*TODO*/ }) {
 
@@ -29,5 +29,5 @@ fun AgendaGestante(controleNavegacao: NavHostController) {
 @Preview(showBackground = true)
 @Composable
 fun AgendaGestantePreview() {
-    AgendaGestante(controleNavegacao = rememberNavController())
+    AgendaGestante(controleNavegacao = rememberNavController(), id = "1")
 }

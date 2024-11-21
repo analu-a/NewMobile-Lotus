@@ -34,7 +34,7 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
 
 @Composable
-fun HomeGestante(controleNavegacao: NavHostController) {
+fun HomeGestante(controleNavegacao: NavHostController, id : String) {
 
     Surface(onClick = { /*TODO*/ }) {
 
@@ -69,7 +69,7 @@ fun HomeGestante(controleNavegacao: NavHostController) {
                         .size(50.dp)
                         .clip(RoundedCornerShape(50.dp))
                         .clickable {
-                            controleNavegacao.navigate("perfilgestante")
+                            controleNavegacao.navigate("perfilgestante/${id}")
 
                         },
                 )
@@ -153,5 +153,5 @@ fun HomeGestante(controleNavegacao: NavHostController) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun HomeGestantePreview() {
-    HomeGestante(controleNavegacao = rememberNavController())
+    HomeGestante(controleNavegacao = rememberNavController(), id = "1")
 }

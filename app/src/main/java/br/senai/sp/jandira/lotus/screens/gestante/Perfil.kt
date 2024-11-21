@@ -49,9 +49,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
 import br.senai.sp.jandira.lotus.model.Gestante
-import br.senai.sp.jandira.lotus.model.ResultGestante
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import br.senai.sp.jandira.lotus.model.Results
+import br.senai.sp.jandira.lotus.model.loginValidado
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,25 +59,28 @@ import retrofit2.Response
 
 
 @Composable
-fun PerfilGestante(controleNavegacao: NavHostController) {
+fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
+    Log.d("API_RESPONSE", "Gestante: $id")
+
     val context = LocalContext.current
     var gestante by remember { mutableStateOf(Gestante()) }
+    Log.i("tag", id.toString())
+    RetrofitFactory().getGestanteService().getGestanteById(id.toInt()).enqueue(object : Callback<loginValidado> {
+        override fun onResponse(p0: Call<loginValidado>, p1: Response<loginValidado>) {
+            if (p1.isSuccessful) {
+                val gestanteResponse = p1.body()
+                //Log.i("tag", id.toString())
+                if (gestanteResponse != null && gestanteResponse != null) {
+                    Log.d("API_RESPONSE", "Gestante: $gestanteResponse")
 
-    RetrofitFactory().getGestanteService().getGestanteById(2).enqueue(object : Callback<Results> {
-        override fun onResponse(call: Call<ResultGestante>, response: Response<ResultGestante>) {
-            if (response.isSuccessful) {
-                val gestanteResponse = response.body()
-                Log.i("tag", response.body().toString())
-                if (gestanteResponse != null && gestanteResponse.results.isNotEmpty()) {
-                    gestante = gestanteResponse.results[0].results // Acessando a primeira gestante
-                    Log.d("API_RESPONSE", "Gestante: $gestante")
+                    gestante = gestanteResponse.gestante!![0] // Acessando a primeira gestante
                 }
             } else {
-                Log.e("API_ERROR", "Erro na resposta: ${response.errorBody()?.string()}")
+                Log.e("API_ERROR", "Erro na resposta: ${p1.errorBody()?.string()}")
             }
         }
 
-        override fun onFailure(call: Call<ResultGestante>, t: Throwable) {
+        override fun onFailure(call: Call<loginValidado>, t: Throwable) {
             Log.e("API_FAILURE", "Falha na chamada: ${t.message}")
         }
     })
@@ -436,8 +439,10 @@ fun PerfilGestante(controleNavegacao: NavHostController) {
 
 
 
+
+
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun PerfilGestantePreview() {
-    PerfilGestante(controleNavegacao = rememberNavController())
+    PerfilGestante(controleNavegacao = rememberNavController(), id = "1")
 }

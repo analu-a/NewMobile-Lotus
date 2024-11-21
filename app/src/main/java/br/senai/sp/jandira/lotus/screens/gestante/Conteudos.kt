@@ -93,7 +93,7 @@ fun Conteudos(controleNavegacao: NavHostController) {
     }
 }
 
-private fun <T> Call<T>.enqueue(callback: Callback<Results>) {
+fun <T> Call<T>.enqueue(callback: Callback<Results>) {
 
 }
 
