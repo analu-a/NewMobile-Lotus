@@ -98,7 +98,6 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
 
                 Column(modifier = Modifier.padding(horizontal = 28.dp)) {
 
-                    Divider(modifier = Modifier.height(2.dp).background(Color(0xFFF6F6F6)))
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Row(modifier = Modifier

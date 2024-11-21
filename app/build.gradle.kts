@@ -75,4 +75,10 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
 
+    //Coil
+    implementation("io.coil-kt:coil-compose:2.7.0")
+
+    //Font
+    implementation("androidx.compose.ui:ui-text:1.4.0")
+
 }
