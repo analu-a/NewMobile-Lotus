@@ -29,4 +29,8 @@ class RetrofitFactory {
     fun getGestanteService(): GestanteService{
         return retrofitFactory.create<GestanteService>(GestanteService::class.java)
     }
+
+    fun getChecklistService(): ChecklistService{
+        return retrofitFactory.create<ChecklistService>(ChecklistService::class.java)
+    }
 }

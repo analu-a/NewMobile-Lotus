@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,6 +49,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
+import br.senai.sp.jandira.lotus.model.Checklist
+import br.senai.sp.jandira.lotus.model.Results
+import br.senai.sp.jandira.lotus.service.RetrofitFactory
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 @Composable
 fun CheckListGestante(controleNavegacao: NavHostController) {
@@ -98,7 +105,9 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
 
                 Column(modifier = Modifier.padding(horizontal = 28.dp)) {
 
-                    Divider(modifier = Modifier.height(2.dp).background(Color(0xFFF6F6F6)))
+                    Divider(modifier = Modifier
+                        .height(2.dp)
+                        .background(Color(0xFFF6F6F6)))
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Row(modifier = Modifier
@@ -124,7 +133,23 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                                         uncheckedColor = Color(0xffFEB491)
                                     )
                             )
-                            Text(text = "Mamadeira")
+                           val enxovalCall = RetrofitFactory()
+                               .getChecklistService()
+                               .getAllEnxoval()
+                               
+                               enxovalCall.enqueue(object :  Callback<Checklist> {
+                                   override fun onResponse(p0: Call<Checklist>, p1: Response<Checklist>
+                                   ) {
+                                       TODO("Not yet implemented")
+                                   }
+
+                                   override fun onFailure(p0: Call<Checklist>, p1: Throwable) {
+                                       TODO("Not yet implemented")
+                                   }
+
+                               }
+                               
+                        )
                         }
 
 
@@ -156,7 +181,9 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 28.dp)) {
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 28.dp)) {
                     OutlinedTextField(
                         value = pesquisaState.value,
                         onValueChange = {

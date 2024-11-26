@@ -3,6 +3,7 @@ package br.senai.sp.jandira.lotus.model
 
 data class Gestante(
     val id_usuario_gestante: Int = 0,
+    val id: Int = 0,
     val nome_gestante: String = "",
     val sobrenome_gestante: String = "",
     val idade_gestante: Int? = 0,

@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,7 @@ import br.senai.sp.jandira.lotus.R
 
 @Composable
 fun HomeGestante(controleNavegacao: NavHostController, id : String) {
-
+Log.i("CALMA",id.toString())
     Surface(onClick = { /*TODO*/ }) {
 
         Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize().padding(vertical = 24.dp)) {
