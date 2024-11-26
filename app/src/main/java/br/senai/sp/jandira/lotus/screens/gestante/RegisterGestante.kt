@@ -37,9 +37,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import br.senai.sp.jandira.lotus.model.Gestante
+import br.senai.sp.jandira.lotus.model.cadastroFeito
+import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import network.chaintech.kmp_date_time_picker.ui.datepicker.WheelDatePickerView
 import network.chaintech.kmp_date_time_picker.ui.datepicker.WheelPicker
 import network.chaintech.kmp_date_time_picker.utils.DateTimePickerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -72,10 +78,30 @@ fun RegisterGestante(controleNavegacao: NavHostController) {
             var semanasState = remember {
                 mutableStateOf("")
             }
-
+            var emailState by remember {
+                mutableStateOf("")
+            }
+            var senhaState by remember {
+                mutableStateOf("")
+            }
+            var fotoState by remember {
+                mutableStateOf("")
+            }
             var dataNascimento by remember {
                 mutableStateOf(false)
             }
+
+            var idadeState by remember {
+                mutableStateOf("")
+            }
+
+            var pesoState by remember {
+                mutableStateOf("")
+            }
+            var alturaState by remember {
+                mutableStateOf("")
+            }
+
 
             // https://github.com/Chaintech-Network/compose_multiplatform_date_time_picker
 
@@ -235,6 +261,152 @@ fun RegisterGestante(controleNavegacao: NavHostController) {
                 )
 
                 OutlinedTextField(
+                    value = idadeState,
+                    onValueChange = {
+                        idadeState = it
+                    },
+                    label = {
+                        Text(text = "Idade")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+                            modifier = Modifier
+                                .clickable { dataNascimento = true }
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+                OutlinedTextField(
+                    value = pesoState,
+                    onValueChange = {
+                        pesoState = it
+                    },
+                    label = {
+                        Text(text = "Peso")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+                OutlinedTextField(
+                    value = alturaState,
+                    onValueChange = {
+                        alturaState = it
+                    },
+                    label = {
+                        Text(text = "Altura")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+                OutlinedTextField(
+                    value = emailState,
+                    onValueChange = {
+                        emailState = it
+                    },
+                    label = {
+                        Text(text = "Email")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+                OutlinedTextField(
+                    value = senhaState,
+                    onValueChange = {
+                        senhaState = it
+                    },
+                    label = {
+                        Text(text = "senha")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+                OutlinedTextField(
+                    value = fotoState,
+                    onValueChange = {
+                        fotoState = it
+                    },
+                    label = {
+                        Text(text = "Foto")
+                    },
+                    leadingIcon = {
+                        Icon(imageVector = Icons.Default.DateRange,
+                            contentDescription = "",
+                            tint = Color(0xffFFAEBF),
+
+                        )
+                    },
+                    colors = OutlinedTextFieldDefaults
+                        .colors(
+                            focusedBorderColor = Color(0xffFFAEBF),
+                            unfocusedBorderColor = Color(0xffFFAEBF),
+                        ),
+                    shape = RoundedCornerShape(36.dp),
+                    maxLines = 1,
+                )
+
+
+                OutlinedTextField(
                     value = nomeBebeState.value,
                     onValueChange = {
                         nomeBebeState.value = it
@@ -285,8 +457,25 @@ fun RegisterGestante(controleNavegacao: NavHostController) {
 
 
                 Button(onClick = {
+var cadastrar = RetrofitFactory().getGestanteService().addGestante(cadastroGestante = Gestante(nome_gestante = nomeState.value, sobrenome_gestante = sobrenomeState.value,
+    idade_gestante = idadeState.toInt(), peso_gestante = pesoState.toDouble(), altura_gestante = alturaState.toDouble(), email_gestante = emailState, senha_gestante = senhaState,
+    foto_gestante = fotoState, cpf_gestante = cpfState.value, data_nascimento_gestante = dataNascimento.toString(), profissao_gestante = profissaoState.value,
+    nome_bebe = nomeBebeState.value, semanas_de_gravidez =  semanasState.value))
 
-                    controleNavegacao.navigate("homegestante")
+                    cadastrar.enqueue(object : Callback<cadastroFeito>{
+                        override fun onResponse(
+                            p0: Call<cadastroFeito>,
+                            p1: Response<cadastroFeito>
+                        ) {
+                            controleNavegacao.navigate("homegestante")
+
+                        }
+
+                        override fun onFailure(p0: Call<cadastroFeito>, p1: Throwable) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+
 
                 },
                     shape = RoundedCornerShape(66.dp),

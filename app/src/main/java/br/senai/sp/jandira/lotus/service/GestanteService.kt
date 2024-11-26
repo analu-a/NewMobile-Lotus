@@ -2,6 +2,7 @@ package br.senai.sp.jandira.lotus.service
 
 import br.senai.sp.jandira.lotus.model.Gestante
 import br.senai.sp.jandira.lotus.model.Results
+import br.senai.sp.jandira.lotus.model.cadastroFeito
 import br.senai.sp.jandira.lotus.model.loginValidado
 import retrofit2.Call
 import retrofit2.http.Body
@@ -23,5 +24,9 @@ interface GestanteService {
     @Headers("Content-type: application/json")
     @POST("v1/Lotus/cadastro/gestante/login")
     fun addLogin(@Body loginUsuario : Gestante) : Call<loginValidado>
+
+    @Headers("Content-type: application/json")
+    @POST("v1/Lotus/cadastro/gestante")
+    fun addGestante(@Body cadastroGestante: Gestante) : Call<cadastroFeito>
 
 }

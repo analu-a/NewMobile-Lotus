@@ -139,11 +139,19 @@ fun Login(controleNavegacao: NavHostController) {
 
 
             Button(onClick = {
-val autentication = RetrofitFactory().getGestanteService().addLogin(loginUsuario = Gestante(nome_gestante = "", sobrenome_gestante = "", idade_gestante = null, peso_gestante = null, altura_gestante = null, email_gestante = emailState.value, senha_gestante = passwordState.value, foto_gestante = "", cpf_gestante = "", data_nascimento_gestante = "", profissao_gestante = "", nome_bebe = "", semanas_de_gravidez = ""))
+val autentication = RetrofitFactory().getGestanteService().addLogin(loginUsuario = Gestante(nome_gestante = "",
+    sobrenome_gestante = "", idade_gestante = null, peso_gestante = null, altura_gestante = null, email_gestante = emailState.value,
+    senha_gestante = passwordState.value, foto_gestante = "", cpf_gestante = "", data_nascimento_gestante = "", profissao_gestante = "",
+    nome_bebe = "", semanas_de_gravidez = ""))
+
                 if(emailState.value == "" || passwordState.value == ""){}else{
+
                 autentication.enqueue(object : Callback<loginValidado>{
+
                     override fun onResponse(p0: Call<loginValidado>, p1: Response<loginValidado>) {
+
                         Log.i("tag", p1.body().toString())
+
 controleNavegacao.navigate("homegestante/${p1.body()?.usuario!![0].id_usuario_gestante}")
                 }
 
