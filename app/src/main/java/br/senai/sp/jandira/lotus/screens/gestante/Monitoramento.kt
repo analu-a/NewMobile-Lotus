@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -95,6 +96,9 @@ fun MonitoramentoGestante(controleNavegacao: NavHostController) {
 
             ModalMonitoramento()
 
+            ModalMonitoramento()
+
+
         }
 
     }
@@ -105,12 +109,43 @@ fun MonitoramentoGestante(controleNavegacao: NavHostController) {
 fun ModalMonitoramento(modifier: Modifier = Modifier) {
 
     Surface (modifier = Modifier.fillMaxWidth()){
-        Column(modifier = Modifier.padding(16.dp).height(55.dp).background(Color(0xFFE7DADB)).width(80.dp)) {
-            Text("24/09")
-            Text("Feliz")
+        Box (
+            modifier = Modifier
+                .fillMaxWidth() // Preenche a largura total
+                .padding(16.dp) // Adiciona padding externo
+                .background(Color(0x20FEB491), shape = RoundedCornerShape(16.dp)) // Define a cor de fundo rosa claro com cantos arredondados
+                .border(2.dp, Color(0xFFFEB491), RoundedCornerShape(16.dp)) // Adiciona borda laranja
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp), // Padding interno do Card
+                horizontalAlignment = Alignment.CenterHorizontally // Alinha os textos ao centro
+            ) {
+                Text(
+                    text = "09/12/2024",
+
+                    color = Color(0xFFFEB491),
+                    fontSize = 18.sp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(bottom = 8.dp) // Espaçamento entre os textos
+                )
+                Row {
+                    Text("Feliz",
+                        color = Color(0xff807D7D),)
+                    Spacer(modifier.width(6.dp))
+                    Text("Enjoada",
+
+                        color = Color(0xff807D7D),)
+                    Spacer(modifier.width(6.dp))
+                    Text("Sociavel",
+
+                        color = Color(0xff807D7D),)
+                }
+            }
         }
     }
-    
+
 }
 
 

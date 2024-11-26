@@ -133,7 +133,7 @@ fun ConteudoCard(conteudo: Conteudo, controleNavegacao: NavHostController) {
             .height(180.dp)
             .shadow(2.dp, RoundedCornerShape(12.dp), )
             .clickable {
-                controleNavegacao.navigate("checklistgestante")
+                controleNavegacao.navigate("checklistgestante/${conteudo.id_conteudos}")
             },
         colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFFFF))
     ) {
@@ -146,18 +146,17 @@ fun ConteudoCard(conteudo: Conteudo, controleNavegacao: NavHostController) {
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(8.dp)),
-                    contentScale = ContentScale.Crop  // A imagem será cortada para preencher o espaço sem distorção
+                    contentScale = ContentScale.Crop
                 )
         }
 
-        // Título do Conteúdo
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth().height(60.dp)
         ) {
             Text(
-                text = conteudo.titulo_conteudo, // Corrigido: usou o dado correto
+                text = conteudo.titulo_conteudo,
                 fontSize = 16.sp,
             )
         }
@@ -177,22 +176,22 @@ fun ConteudosPreview() {
 
 
 
-//@Preview(showBackground = true)
-//@Composable
-//private fun ConteudoCardPreview() {
-//    // Criando um exemplo de Conteudo fictício
-//    val conteudo = Conteudo(
-//        id_conteudos = 1,
-//        foto_capa = "https://lavembebe.com.br/blog/wp-content/uploads/2020/06/alimenta%C3%A7%C3%A3o-na-gravidez.jpg",
-//        titulo_conteudo = "O que comer durante a gestação",
-//        data_conteudo = "2024-04-02T00:00:00.000Z",
-//        conteudo = "Uma alimentação saudável ajuda a manter seu bebê bem.",
-//        id_gestante_conteudo_usuario = 1
-//    )
+@Preview(showBackground = true)
+@Composable
+private fun ConteudoCardPreview() {
+    // Criando um exemplo de Conteudo fictício
+    val conteudo = Conteudo(
+        id_conteudos = 1,
+        foto_capa = "https://lavembebe.com.br/blog/wp-content/uploads/2020/06/alimenta%C3%A7%C3%A3o-na-gravidez.jpg",
+        titulo_conteudo = "O que comer durante a gestação",
+        data_conteudo = "2024-04-02T00:00:00.000Z",
+        conteudo = "Uma alimentação saudável ajuda a manter seu bebê bem.",
+        id_gestante_conteudo_usuario = 1
+    )
+
+    // Criando um NavController fictício para o preview
+    val navController = rememberNavController()
 //
-//    // Criando um NavController fictício para o preview
-//    val navController = rememberNavController()
-////
-////    // Chama o ConteudoCard passando o conteudo fictício e o navController fictício
-////    ConteudoCard(conteudo = conteudo, con = navController)
-//}
+//    // Chama o ConteudoCard passando o conteudo fictício e o navController fictício
+//    ConteudoCard(conteudo = conteudo, con = navController)
+}
