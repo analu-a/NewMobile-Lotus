@@ -133,23 +133,29 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                                         uncheckedColor = Color(0xffFEB491)
                                     )
                             )
+                            var enxovalList: List<Checklist> = listOf()
+
+
                            val enxovalCall = RetrofitFactory()
                                .getChecklistService()
                                .getAllEnxoval()
-                               
+
+                            //arrumar
                                enxovalCall.enqueue(object :  Callback<Checklist> {
                                    override fun onResponse(p0: Call<Checklist>, p1: Response<Checklist>
                                    ) {
-                                       TODO("Not yet implemented")
+                                       if (p1.isSuccessful) {
+                                           enxovalList = p1.body()?.resultsEnxoval ?: listOf()
+                                       }
+
                                    }
 
                                    override fun onFailure(p0: Call<Checklist>, p1: Throwable) {
-                                       TODO("Not yet implemented")
+
+
                                    }
 
-                               }
-                               
-                        )
+                               })
                         }
 
 
