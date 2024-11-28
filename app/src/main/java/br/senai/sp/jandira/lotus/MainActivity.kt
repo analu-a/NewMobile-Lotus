@@ -21,7 +21,6 @@ import br.senai.sp.jandira.lotus.screens.doula.RegisterDoula
 import br.senai.sp.jandira.lotus.screens.gestante.AgendaGestante
 import br.senai.sp.jandira.lotus.screens.gestante.CardConteudo
 import br.senai.sp.jandira.lotus.screens.gestante.CheckListGestante
-import br.senai.sp.jandira.lotus.screens.gestante.Conteudos
 import br.senai.sp.jandira.lotus.screens.gestante.GaleriaGestante
 import br.senai.sp.jandira.lotus.screens.gestante.HomeGestante
 import br.senai.sp.jandira.lotus.screens.gestante.MonitoramentoGestante
@@ -64,7 +63,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = "agendagestante") { AgendaGestante(controleNavegacao, id.toString()
                         ) }
                         composable(route = "checklistgestante") { CheckListGestante(controleNavegacao) }
-                        composable(route = "conteudosgestante") { Conteudos(controleNavegacao) }
+                       // composable(route = "conteudosgestante") { Conteudos(controleNavegacao) }
                         composable(route = "monitoramentogestante") { MonitoramentoGestante(controleNavegacao) }
                         composable(route = "galeriagestante") { GaleriaGestante(controleNavegacao) }
                         composable(route = "conteudoCard") { CardConteudo(controleNavegacao, id) }

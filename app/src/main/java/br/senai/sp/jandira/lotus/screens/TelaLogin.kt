@@ -50,7 +50,9 @@ import retrofit2.Response
 fun Login(controleNavegacao: NavHostController) {
 
     Surface(onClick = { /*TODO*/ }) {
-
+var mensagemErroState = remember {
+    mutableStateOf("")
+}
         var emailState = remember {
             mutableStateOf("")
         }
@@ -134,7 +136,7 @@ fun Login(controleNavegacao: NavHostController) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                 visualTransformation = PasswordVisualTransformation()
             )
-
+            Text(text = mensagemErroState.value, color = Color.Red)
             Spacer(modifier = Modifier.height(34.dp))
 
 
@@ -151,13 +153,17 @@ val autentication = RetrofitFactory().getGestanteService().addLogin(loginUsuario
                     override fun onResponse(p0: Call<loginValidado>, p1: Response<loginValidado>) {
 
                         Log.i("tag", p1.body().toString())
+if(p1.body()==null){
 
-controleNavegacao.navigate("homegestante/${p1.body()?.usuario!![0].id_usuario_gestante}")
+    mensagemErroState.value= p1.body()?.message ?: "Dados incorretos"
+}
+                        else{
+controleNavegacao.navigate("homegestante/${p1.body()?.usuario!![0].id_usuario_gestante}")}
                 }
 
                     override fun onFailure(p0: Call<loginValidado>, p1: Throwable) {
-                        TODO("Not yet implemented")
-                        Log.i("tag", p1.message.toString())
+
+                        mensagemErroState.value=  "Ocorreu um erro no servidor, tente novamente mais tarde"
                     }
                 })
 

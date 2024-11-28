@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,8 +35,10 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,6 +53,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
 import br.senai.sp.jandira.lotus.model.Checklist
+import br.senai.sp.jandira.lotus.model.ResultEnxoval
 import br.senai.sp.jandira.lotus.model.Results
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
 import retrofit2.Call
@@ -60,11 +64,12 @@ import retrofit2.Response
 fun CheckListGestante(controleNavegacao: NavHostController) {
 
     Surface(onClick = { /*TODO*/ }) {
-
+        var produtosEnxoval by remember {
+            mutableStateOf("")
+        }
         var pesquisaState = remember {
             mutableStateOf("")
         }
-
         var checkState = remember {
             mutableStateOf(false)
         }
@@ -135,7 +140,7 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                                         uncheckedColor = Color(0xffFEB491)
                                     )
                             )
-                            var enxovalList: List<Checklist> = listOf()
+                            var enxovalList: ResultEnxoval?
 
 
                            val enxovalCall = RetrofitFactory()
@@ -143,16 +148,18 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                                .getAllEnxoval()
 
                             //arrumar
-                               enxovalCall.enqueue(object :  Callback<Checklist> {
-                                   override fun onResponse(p0: Call<Checklist>, p1: Response<Checklist>
+                               enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
+                                   override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
                                    ) {
                                        if (p1.isSuccessful) {
-                                           enxovalList = p1.body()?.resultsEnxoval ?: listOf()
+                                           enxovalList = p1.body()
+                                           Log.i("CALMA",enxovalList.toString())
                                        }
 
                                    }
 
-                                   override fun onFailure(p0: Call<Checklist>, p1: Throwable) {
+                                   override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
+                                       Log.i("CALMA",p1.toString())
 
 
                                    }
@@ -217,7 +224,11 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
 
                     Button(
                         modifier = Modifier.height(50.dp),
-                        onClick = { /* Ação do botão */ },
+                        onClick = { var novoItem = RetrofitFactory().getChecklistService().addEnxoval(
+                            enxovalGestante = Checklist(
+                                produtos_enxoval = produtosEnxoval,
+                            )
+                        ) },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xffFFAEBF),
                             contentColor = Color.White
