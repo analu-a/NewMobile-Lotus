@@ -43,7 +43,7 @@ import java.util.Calendar
 import java.util.Locale
 
 @Composable
-fun AgendaGestante(controleNavegacao: NavHostController) {
+fun AgendaGestante(controleNavegacao: NavHostController, id : String) {
 
     Surface(modifier = Modifier.fillMaxSize()) {
 
@@ -234,5 +234,5 @@ fun getDaysInMonth(calendar: Calendar): List<Int> {
 @Preview(showBackground = true)
 @Composable
 fun AgendaGestantePreview() {
-    AgendaGestante(controleNavegacao = rememberNavController())
+    AgendaGestante(controleNavegacao = rememberNavController(), id = "1")
 }

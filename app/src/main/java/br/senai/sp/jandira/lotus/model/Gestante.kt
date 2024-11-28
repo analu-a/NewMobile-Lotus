@@ -1,12 +1,14 @@
 package br.senai.sp.jandira.lotus.model
 
+
 data class Gestante(
     val id_usuario_gestante: Int = 0,
+    val id: Int = 0,
     val nome_gestante: String = "",
     val sobrenome_gestante: String = "",
-    val idade_gestante: Int = 0,
-    val peso_gestante: Double = 0.0,
-    val altura_gestante: Double = 0.0,
+    val idade_gestante: Int? = 0,
+    val peso_gestante: Double? = 0.0,
+    val altura_gestante: Double? = 0.0,
     val email_gestante: String = "",
     val senha_gestante: String = "",
     val foto_gestante: String = "",

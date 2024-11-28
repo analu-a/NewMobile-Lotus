@@ -1,5 +1,6 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -34,8 +35,8 @@ import androidx.navigation.compose.rememberNavController
 import br.senai.sp.jandira.lotus.R
 
 @Composable
-fun HomeGestante(controleNavegacao: NavHostController) {
-
+fun HomeGestante(controleNavegacao: NavHostController, id : String) {
+Log.i("CALMA",id.toString())
     Surface(onClick = { /*TODO*/ }) {
 
         Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize().padding(vertical = 24.dp)) {
@@ -69,7 +70,7 @@ fun HomeGestante(controleNavegacao: NavHostController) {
                         .size(50.dp)
                         .clip(RoundedCornerShape(50.dp))
                         .clickable {
-                            controleNavegacao.navigate("perfilgestante")
+                            controleNavegacao.navigate("perfilgestante/${id}")
 
                         },
                 )
@@ -153,5 +154,5 @@ fun HomeGestante(controleNavegacao: NavHostController) {
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
 fun HomeGestantePreview() {
-    HomeGestante(controleNavegacao = rememberNavController())
+    HomeGestante(controleNavegacao = rememberNavController(), id = "1")
 }
