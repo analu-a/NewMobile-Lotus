@@ -140,31 +140,34 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                                         uncheckedColor = Color(0xffFEB491)
                                     )
                             )
-                            var enxovalList: ResultEnxoval?
-
-
-                           val enxovalCall = RetrofitFactory()
-                               .getChecklistService()
-                               .getAllEnxoval()
-
-                            //arrumar
-                               enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
-                                   override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
-                                   ) {
-                                       if (p1.isSuccessful) {
-                                           enxovalList = p1.body()
-                                           Log.i("CALMA",enxovalList.toString())
-                                       }
-
-                                   }
-
-                                   override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
-                                       Log.i("CALMA",p1.toString())
-
-
-                                   }
-
-                               })
+//                            var enxovalList: ResultEnxoval?
+//
+//
+//                           val enxovalCall = RetrofitFactory()
+//                               .getChecklistService()
+//                               .getAllEnxoval()
+//
+//                            //arrumar
+//                               enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
+//                                   override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
+//                                   ) {
+//                                       if (p1.isSuccessful) {
+//                                           enxovalList = p1.body()
+//                                           enxovalList?.enxovalDados?.forEach { it ->
+//                                               Text(text = it.produtos_enxoval)
+//                                           }
+//                                           Log.i("CALMA",enxovalList.toString())
+//                                       }
+//
+//                                   }
+//
+//                                   override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
+//                                       Log.i("CALMA",p1.toString())
+//
+//
+//                                   }
+//
+//                               })
                         }
 
 
@@ -183,6 +186,191 @@ fun CheckListGestante(controleNavegacao: NavHostController) {
                             )
                         }
                     }
+                    var enxovalList = remember {
+                        mutableStateOf<ResultEnxoval?>(null)
+                    }
+
+
+                    val enxovalCall = RetrofitFactory()
+                        .getChecklistService()
+                        .getAllEnxoval()
+var isLoading by remember {
+    mutableStateOf(true)
+}
+                    //arrumar
+                    enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
+                        override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
+                        ) {
+                            if (p1.isSuccessful) {
+                                enxovalList.value = p1.body()
+                                Log.i("CALMA",enxovalList.toString())
+                                isLoading = false
+                            }
+
+                        }
+
+                        override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
+                            Log.i("CALMA",p1.toString())
+                            isLoading = false
+
+
+                        }
+
+                    })
+                    Column {
+
+                        if(isLoading == true){}else{
+
+                            enxovalList?.value?.enxovalDados?.forEach { it
+
+
+                                Row(modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp)
+                                    .shadow(
+                                        2.dp,
+                                        RoundedCornerShape(12.dp),
+                                        ambientColor = Color(0xFF7C7778)
+                                    ),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+
+
+                                    ) {
+                                    Row( verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween
+                                    ) {
+                                        Checkbox(
+                                            checked = checkState.value,
+                                            onCheckedChange = {
+                                                checkState.value = it
+                                            },
+                                            colors = CheckboxDefaults
+                                                .colors(
+                                                    checkedColor = Color(0xffCF06F0),
+                                                    uncheckedColor = Color(0xffFEB491)
+                                                )
+                                        )
+                        //                            var enxovalList: ResultEnxoval?
+                        //
+                        //
+                        //                           val enxovalCall = RetrofitFactory()
+                        //                               .getChecklistService()
+                        //                               .getAllEnxoval()
+                        //
+                        //                            //arrumar
+                        //                               enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
+                        //                                   override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
+                        //                                   ) {
+                        //                                       if (p1.isSuccessful) {
+                        //                                           enxovalList = p1.body()
+                        //                                           enxovalList?.enxovalDados?.forEach { it ->
+                        //                                               Text(text = it.produtos_enxoval)
+                        //                                           }
+                        //                                           Log.i("CALMA",enxovalList.toString())
+                        //                                       }
+                        //
+                        //                                   }
+                        //
+                        //                                   override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
+                        //                                       Log.i("CALMA",p1.toString())
+                        //
+                        //
+                        //                                   }
+                        //
+                        //                               })
+                                    }
+
+                                    Text(text = it.produtos_enxoval)
+
+                                    Card( modifier = Modifier.padding(12.dp),colors = CardDefaults.cardColors(containerColor = Color(0xffFFAEBF))) {
+                                        Icon(
+                                            imageVector = Icons.Default.Clear,
+                                            contentDescription = "Buscar",
+                                            tint = Color(0xFFFFFFFF),
+                                            modifier = Modifier
+                                                .height(20.dp)
+                                                .width(20.dp)
+                                                .clickable {
+
+                                                }
+                                        )
+                                    }
+                                }}
+                    }
+                        Row(modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp)
+                            .shadow(
+                                2.dp,
+                                RoundedCornerShape(12.dp),
+                                ambientColor = Color(0xFF7C7778)
+                            ),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+
+
+                        ) {
+                        Row( verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Checkbox(
+                                checked = checkState.value,
+                                onCheckedChange = {
+                                    checkState.value = it
+                                },
+                                colors = CheckboxDefaults
+                                    .colors(
+                                        checkedColor = Color(0xffCF06F0),
+                                        uncheckedColor = Color(0xffFEB491)
+                                    )
+                            )
+//                            var enxovalList: ResultEnxoval?
+//
+//
+//                           val enxovalCall = RetrofitFactory()
+//                               .getChecklistService()
+//                               .getAllEnxoval()
+//
+//                            //arrumar
+//                               enxovalCall.enqueue(object :  Callback<ResultEnxoval> {
+//                                   override fun onResponse(p0: Call< ResultEnxoval>, p1: Response<ResultEnxoval>
+//                                   ) {
+//                                       if (p1.isSuccessful) {
+//                                           enxovalList = p1.body()
+//                                           enxovalList?.enxovalDados?.forEach { it ->
+//                                               Text(text = it.produtos_enxoval)
+//                                           }
+//                                           Log.i("CALMA",enxovalList.toString())
+//                                       }
+//
+//                                   }
+//
+//                                   override fun onFailure(p0: Call<ResultEnxoval>, p1: Throwable) {
+//                                       Log.i("CALMA",p1.toString())
+//
+//
+//                                   }
+//
+//                               })
+                        }
+
+
+
+                        Card( modifier = Modifier.padding(12.dp),colors = CardDefaults.cardColors(containerColor = Color(0xffFFAEBF))) {
+                            Icon(
+                                imageVector = Icons.Default.Clear,
+                                contentDescription = "Buscar",
+                                tint = Color(0xFFFFFFFF),
+                                modifier = Modifier
+                                    .height(20.dp)
+                                    .width(20.dp)
+                                    .clickable {
+
+                                    }
+                            )
+                        }
+                    }}
 
 
                 }
