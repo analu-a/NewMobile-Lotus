@@ -1,42 +1,38 @@
 package br.senai.sp.jandira.lotus.screens.gestante
 
-import androidx.compose.foundation.background
+import androidx.compose.ui.tooling.preview.Preview
+
+
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
 import br.senai.sp.jandira.lotus.model.Conteudo
-import br.senai.sp.jandira.lotus.model.Gestante
-import br.senai.sp.jandira.lotus.model.Results
+import br.senai.sp.jandira.lotus.model.CounteudoResponse
 import br.senai.sp.jandira.lotus.service.RetrofitFactory
+import coil.compose.AsyncImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -44,48 +40,81 @@ import retrofit2.Response
 @Composable
 fun Conteudos(controleNavegacao: NavHostController) {
 
-    var conteudoList: List<Gestante> = listOf()
+
+    val context = LocalContext.current
+
+    var conteudoList by remember { mutableStateOf<List<Conteudo>>(listOf()) }
     var isLoading by remember { mutableStateOf(true) } // Estado de carregamento
 
-    val conteudoCall = RetrofitFactory()
-        .getConteudoService()
-        .getAllConteudo()
+    // A chamada Retrofit é feita aqui, fora do composable
+    LaunchedEffect(Unit) {
+        val conteudoCall = RetrofitFactory()
+            .getConteudoService()
+            .getAllConteudo()
 
-    conteudoCall.enqueue(object : Callback<Results> {
-        override fun onResponse(call: Call<Results>, response: Response<Results>) {
-            if (response.isSuccessful) {
-                conteudoList = response.body()?.results ?: listOf()
+        conteudoCall.enqueue(object : Callback<CounteudoResponse> {
+            override fun onResponse(
+                call: Call<CounteudoResponse>, response: Response<CounteudoResponse>
+            ) {
+                if (response.isSuccessful) {
+                    conteudoList = response.body()?.conteudosDados ?: listOf()
+                    Log.d("Conteudos: ", "$conteudoList")
+                }
+                isLoading = false // Carregamento concluído
             }
-            isLoading = false // Carregamento concluído
-        }
 
-        override fun onFailure(call: Call<Results>, t: Throwable) {
-            // Caso haja erro na resposta, você pode mostrar um erro ou algo do tipo
-            isLoading = false
-        }
-    })
+            override fun onFailure(call: Call<CounteudoResponse>, t: Throwable) {
+                // Caso haja erro na resposta, você pode mostrar um erro ou algo do tipo
+                isLoading = false
+                Log.e("Erro API", "Falha na requisição: ${t.message}")
+            }
+        })
+    }
 
-
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
+    Surface(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White) // Altere para uma cor mais neutra
+                .padding(vertical = 28.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            if (isLoading) {
-                // Exibe um carregamento enquanto os dados não chegam
-                Text(
-                    text = "Carregando...",
-                    color = Color.Black,
-                    modifier = Modifier.padding(16.dp)
+            // Cabeçalho com botões e título
+            Row (verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()){
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "Buscar",
+                    tint = Color(0xff7C7C7C),
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp)
+                        .clickable {
+                            controleNavegacao.navigate("homegestante")
+                        }
                 )
+                Text(text = "Conteúdos",
+                    color = Color(0xff807D7D),
+                    fontSize = 24.sp)
+
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowLeft,
+                    contentDescription = "Buscar",
+                    tint = Color(0x007C7C7C),
+                    modifier = Modifier
+                        .height(50.dp)
+                        .width(50.dp)
+                )
+
+            }
+
+            // Exibindo a lista de conteúdos
+            if (isLoading) {
+                // Exibe um carregando, pode ser um indicador de progresso
+                Toast.makeText(context, "Carregando..", Toast.LENGTH_SHORT).show()
             } else {
-                // Aqui, você chama o ConteudoCard para cada item da lista 'conteudoList'
-                LazyColumn {
+                LazyColumn(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                     items(conteudoList) { conteudo ->
-                        ConteudoCard()
+                        // Para cada item da lista, vamos exibir um card
+                        ConteudoCard(conteudo = conteudo, controleNavegacao = controleNavegacao)
                     }
                 }
             }
@@ -93,91 +122,65 @@ fun Conteudos(controleNavegacao: NavHostController) {
     }
 }
 
+
 fun <T> Call<T>.enqueue(callback: Callback<Results>) {
 
 }
 
+
 @Composable
-fun ConteudoCard() {
+fun ConteudoCard(conteudo: Conteudo, controleNavegacao: NavHostController) {
 
-    val context = LocalContext.current
-
-    var conteudo by remember {
-        mutableStateOf("")
-    }
 
     Card(
         modifier = Modifier
             .padding(6.dp)
-            .fillMaxWidth()
-            .height(160.dp)
+            .width(349.dp)
+            .height(180.dp)
+            .shadow(2.dp, RoundedCornerShape(12.dp), )
             .clickable {
-                // Aqui você pode adicionar a navegação para detalhes
-                // controleDeNavegacao.navigate("conteudoDetalhes/${conteudo.id_conteudos}")
+                controleNavegacao.navigate("checklistgestante/${conteudo.id_conteudos}")
             },
-        colors = CardDefaults.cardColors(containerColor = Color(0xff00b7ff))
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFFFFF))
     ) {
-        Row {
-            // Conteúdo do texto
-            Column(
-                modifier = Modifier.padding(start = 8.dp, top = 10.dp)
-            ) {
-                // Título do Conteúdo
-                Text(
 
-                    text = "nome",
-                    color = Color(0xFFFF00F2),
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
-                )
-                Text(
-                    text = "oiiii",
-                    color = Color(0xFFFF00F2),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                )
+        Surface(modifier = Modifier.fillMaxWidth().height(140.dp)) {
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Descrição do Conteúdo
-                Text(
-                    text = "Título:",
-                    color = Color(0xFFFF00F2),
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
+                AsyncImage(
+                    model = conteudo.foto_capa,
+                    contentDescription = "",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(8.dp)),
+                    contentScale = ContentScale.Crop
                 )
-                Text(
-                    text = "Título:",
-                    color = Color(0xFFFF00F2),
-                    fontSize = 14.sp,
-                    modifier = Modifier.padding(top = 4.dp)
-                )
-
-                Spacer(modifier = Modifier.height(6.dp))
-
-                // Data do Conteúdo
-                Text(
-                    text = "Data:",
-                    color = Color(0xFFFF00F2),
-                    fontFamily = FontFamily.Monospace,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                )
-                Text(
-                    text = "Título:",
-                    color = Color(0xFFFF00F2),
-                    fontSize = 12.sp,
-                )
-
-                Text(
-                    "test"
-                )
-            }
         }
+
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().height(60.dp)
+        ) {
+            Text(
+                text = conteudo.titulo_conteudo,
+                fontSize = 16.sp,
+            )
+        }
+
     }
+
+    Spacer(modifier = Modifier.height(12.dp))
 }
+
+
+@Preview(showSystemUi = true, showBackground = true)
+@Composable
+fun ConteudosPreview() {
+    Conteudos(controleNavegacao = rememberNavController())
+}
+
+
+
 
 @Preview(showBackground = true)
 @Composable

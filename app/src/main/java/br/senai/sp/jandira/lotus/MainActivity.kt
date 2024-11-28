@@ -8,15 +8,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import br.senai.sp.jandira.lotus.screens.Login
 import br.senai.sp.jandira.lotus.screens.Register
 import br.senai.sp.jandira.lotus.screens.doula.HomeDoula
 import br.senai.sp.jandira.lotus.screens.doula.PerfilDoula
 import br.senai.sp.jandira.lotus.screens.doula.RegisterDoula
 import br.senai.sp.jandira.lotus.screens.gestante.AgendaGestante
+import br.senai.sp.jandira.lotus.screens.gestante.CardConteudo
 import br.senai.sp.jandira.lotus.screens.gestante.CheckListGestante
 import br.senai.sp.jandira.lotus.screens.gestante.Conteudos
 import br.senai.sp.jandira.lotus.screens.gestante.GaleriaGestante
@@ -64,6 +67,18 @@ class MainActivity : ComponentActivity() {
                         composable(route = "conteudosgestante") { Conteudos(controleNavegacao) }
                         composable(route = "monitoramentogestante") { MonitoramentoGestante(controleNavegacao) }
                         composable(route = "galeriagestante") { GaleriaGestante(controleNavegacao) }
+                        composable(route = "conteudoCard") { CardConteudo(controleNavegacao, id) }
+
+
+                        composable(
+                            route = "conteudocard/{id}",
+                            arguments = listOf(navArgument("id") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val id = backStackEntry.arguments?.getInt("id")
+                            if (id != null) {
+                                CardConteudo(controleNavegacao, id)
+                            }
+                        }
 
                     }
                 }

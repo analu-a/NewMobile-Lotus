@@ -188,17 +188,18 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
             )
             {
 
-                Column (horizontalAlignment = Alignment.CenterHorizontally,
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.fillMaxSize()
 
-                ){
+                ) {
 
                     // Nome do usuário
 //                    Text(text = "Perfil de Juliana",
 //                        color = Color(0xff7C7C7C),
 //                        fontSize = 20.sp)
 
-                    Spacer(modifier = Modifier.height(12.dp), )
+                    Spacer(modifier = Modifier.height(12.dp),)
 
                     Card(
                         modifier = Modifier
@@ -207,10 +208,11 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
                             .padding(16.dp),
                         shape = MaterialTheme.shapes.medium,
                         colors = androidx.compose.material3.CardDefaults.cardColors(
-                            containerColor = Color(0xffF6F6F6))
-                        ) {
+                            containerColor = Color(0xffF6F6F6)
+                        )
+                    ) {
 
-                        Column (modifier = Modifier.padding(18.dp)){
+                        Column(modifier = Modifier.padding(18.dp)) {
 
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
@@ -219,10 +221,13 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Nome:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Nome:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(text = "${gestante.nome_gestante}")
                             }
@@ -234,82 +239,100 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Sobrenome:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Sobrenome:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("${gestante.sobrenome_gestante}")
                             }
 
-                            Row (
+                            Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "CPF:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "CPF:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("${gestante.cpf_gestante}")
                             }
 
-                            Row (
+                            Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Profissao:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Profissao:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("${gestante.profissao_gestante}")
                             }
-                            Row (
+                            Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Nascimento:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Nascimento:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("${gestante.data_nascimento_gestante}")
                             }
-                            Row (
+                            Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Nome do bebe:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Nome do bebe:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
-                                Text("${gestante.nome_bebe}")
+                               Text("${gestante.nome_bebe}")
                             }
-                            Row (
+                            Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 modifier = Modifier
                                     .padding(4.dp)
                                     .fillMaxWidth()
                                     .height(32.dp)
                                     .clip(RoundedCornerShape(16.dp))
-                                    .background(color = Color(0xffFFFFFF))) {
+                                    .background(color = Color(0xffFFFFFF))
+                            ) {
                                 Spacer(modifier = Modifier.width(12.dp))
-                                Text(text = "Semanas de gravidez:",
-                                    color = Color(0xff7C7C7C))
+                                Text(
+                                    text = "Semanas de gravidez:",
+                                    color = Color(0xff7C7C7C)
+                                )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text("${gestante.semanas_de_gravidez}")
                             }
@@ -323,9 +346,11 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xffFFAEBF),
                             contentColor = Color.White
-                        )) {
+                        )
+                    ) {
 
-                        Icon(imageVector = Icons.Default.Create,
+                        Icon(
+                            imageVector = Icons.Default.Create,
                             contentDescription = "",
                             tint = Color(0xffFFFFFF),
                         )
@@ -334,96 +359,96 @@ fun PerfilGestante(controleNavegacao: NavHostController, id : String) {
 
                     }
 
+//                      Nav ANtiga
+//
+//                    Row(modifier = Modifier
+//                        .height(160.dp)
+//                        .fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
+//
+//                       Row {
+//
+//                           Column(horizontalAlignment = Alignment.CenterHorizontally){
+//
+//                               Icon(imageVector = Icons.Default.Home,
+//                                   contentDescription = "",
+//                                   tint = Color(0xffBFBFBF),
+//                                   modifier = Modifier
+//                                       .height(40.dp)
+//                                       .width(40.dp)
+//                               )
+//                               Spacer(modifier = Modifier.height(12.dp))
+//                               Box(
+//                                   modifier = Modifier
+//                                       .width(60.dp)
+//                                       .height(4.dp)
+//                                       .background(Color(0xffBFBFBF))
+//                               )
+//
+//                           }
+//
+//                           Column(horizontalAlignment = Alignment.CenterHorizontally){
+//
+//                               Icon(imageVector = Icons.Default.Menu,
+//                                   contentDescription = "",
+//                                   tint = Color(0xffBFBFBF),
+//                                   modifier = Modifier
+//                                       .height(40.dp)
+//                                       .width(40.dp)
+//                               )
+//                               Spacer(modifier = Modifier.height(12.dp))
+//                               Box(
+//                                   modifier = Modifier
+//                                       .width(60.dp)
+//                                       .height(4.dp)
+//                                       .background(Color(0xffBFBFBF))
+//                               )
+//                           }
+//
+//                           Column(horizontalAlignment = Alignment.CenterHorizontally){
+//
+//                               Icon(imageVector = Icons.Default.Favorite,
+//                                   contentDescription = "",
+//                                   tint = Color(0xffBFBFBF),
+//                                   modifier = Modifier
+//                                       .height(40.dp)
+//                                       .width(40.dp)
+//                               )
+//                               Spacer(modifier = Modifier.height(12.dp))
+//                               Box(
+//                                   modifier = Modifier
+//                                       .width(60.dp)
+//                                       .height(4.dp)
+//                                       .background(Color(0xffBFBFBF))
+//                               )
+//
+//                           }
+//
+//                           Column(horizontalAlignment = Alignment.CenterHorizontally){
+//
+//                               Icon(imageVector = Icons.Default.Person,
+//                                   contentDescription = "",
+//                                   tint = Color(0xffFEB491),
+//                                   modifier = Modifier
+//                                       .height(40.dp)
+//                                       .width(40.dp)
+//                               )
+//                               Spacer(modifier = Modifier.height(12.dp))
+//                               Box(
+//                                   modifier = Modifier
+//                                       .width(60.dp)
+//                                       .height(4.dp)
+//                                       .background(Color(0xffFEB491)) // Cor personalizada
+//                               )
+//
+//                           }
+//                       }
+//                    }
+//                }
 
 
-                    Row(modifier = Modifier
-                        .height(160.dp)
-                        .fillMaxWidth(), verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.Center) {
-
-                       Row {
-
-                           Column(horizontalAlignment = Alignment.CenterHorizontally){
-
-                               Icon(imageVector = Icons.Default.Home,
-                                   contentDescription = "",
-                                   tint = Color(0xffBFBFBF),
-                                   modifier = Modifier
-                                       .height(40.dp)
-                                       .width(40.dp)
-                               )
-                               Spacer(modifier = Modifier.height(12.dp))
-                               Box(
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(4.dp)
-                                       .background(Color(0xffBFBFBF))
-                               )
-
-                           }
-
-                           Column(horizontalAlignment = Alignment.CenterHorizontally){
-
-                               Icon(imageVector = Icons.Default.Menu,
-                                   contentDescription = "",
-                                   tint = Color(0xffBFBFBF),
-                                   modifier = Modifier
-                                       .height(40.dp)
-                                       .width(40.dp)
-                               )
-                               Spacer(modifier = Modifier.height(12.dp))
-                               Box(
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(4.dp)
-                                       .background(Color(0xffBFBFBF))
-                               )
-                           }
-
-                           Column(horizontalAlignment = Alignment.CenterHorizontally){
-
-                               Icon(imageVector = Icons.Default.Favorite,
-                                   contentDescription = "",
-                                   tint = Color(0xffBFBFBF),
-                                   modifier = Modifier
-                                       .height(40.dp)
-                                       .width(40.dp)
-                               )
-                               Spacer(modifier = Modifier.height(12.dp))
-                               Box(
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(4.dp)
-                                       .background(Color(0xffBFBFBF))
-                               )
-
-                           }
-
-                           Column(horizontalAlignment = Alignment.CenterHorizontally){
-
-                               Icon(imageVector = Icons.Default.Person,
-                                   contentDescription = "",
-                                   tint = Color(0xffFEB491),
-                                   modifier = Modifier
-                                       .height(40.dp)
-                                       .width(40.dp)
-                               )
-                               Spacer(modifier = Modifier.height(12.dp))
-                               Box(
-                                   modifier = Modifier
-                                       .width(60.dp)
-                                       .height(4.dp)
-                                       .background(Color(0xffFEB491)) // Cor personalizada
-                               )
-
-                           }
-                       }
-                    }
                 }
 
-
             }
-
-
 
 
 

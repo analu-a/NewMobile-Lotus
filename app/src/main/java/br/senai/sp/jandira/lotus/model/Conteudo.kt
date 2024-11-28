@@ -8,3 +8,9 @@ data class Conteudo(
     var conteudo: String = "",
     var id_gestante_conteudo_usuario: Int = 0
 )
+
+data class CounteudoResponse(
+    var conteudosDados: List<Conteudo>,
+    var quantidade: Int,
+    var status_code: Int
+)
